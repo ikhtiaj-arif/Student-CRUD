@@ -1,16 +1,74 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useLoaderData,
+} from "react-router-dom";
 
 const EditStudent = () => {
   const student = useLoaderData();
+  // const [updateStudent, setUpdateStudent] = useState(student)
+  const navigate = useNavigate();
+  const handleUpdateProduct = (event) => {
+    event.preventDefault();
+    // get input values
+    const form = event.target;
+    const firstName = form.firstName.value;
+    const middleName = form.middleName.value;
+    const lastName = form.lastName.value;
+    const classSelect = form.classSelect.value;
+    const divisionSelect = form.divisionSelect.value;
+    const contact = form.contact.value;
+    const address1 = form.address1.value;
+    const address2 = form.address2.value;
+    const street = form.street.value;
+    const city = form.city.value;
+    const zip = form.zip.value;
 
-  const handleUpdateProduct = () => {};
+    // put input value in object
+    const studentDetails = {
+      firstName,
+      middleName,
+      lastName,
+      classSelect,
+      divisionSelect,
+      contact,
+      address1,
+      address2,
+      street,
+      city,
+      zip,
+    };
+    console.log(studentDetails);
+    console.log(student._id);
+
+    fetch(`http://localhost:5000/student/${student._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(studentDetails),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        if (data.acknowledged) {
+          toast.success("Updated Successfully!");
+          navigate("/dashboard/allStudents");
+        } else {
+          toast.error("Failed To Update");
+        }
+      });
+  };
 
   return (
     <div>
       <h1>Update Student</h1>
       <form onSubmit={handleUpdateProduct}>
-        <fieldset className="grid grid-cols-4 gap-6 rounded-md shadow-sm bg-gray-800 p-10 lg:px-20">
+        <fieldset className="grid grid-cols-4 gap-6 rounded-md shadow-sm bg-gray-800 text-white p-10 lg:px-20">
           <div className="grid grid-cols-6 py-8 gap-4 col-span-full lg:col-span-4 ">
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <input
@@ -19,7 +77,7 @@ const EditStudent = () => {
                 defaultValue={student.firstName}
                 type="text"
                 placeholder="First Name"
-                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -30,7 +88,7 @@ const EditStudent = () => {
                 defaultValue={student.middleName}
                 type="text"
                 placeholder="Middle Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -41,38 +99,48 @@ const EditStudent = () => {
                 defaultValue={student.lastName}
                 type="text"
                 placeholder="Last Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <select
                 name="classSelect"
-                className="select w-full"
                 defaultValue={student.classSelect}
+                className="select w-full"
               >
-                <option disabled selected></option>
-                {/* {categories.map((e) => (
-                  <option key={e._id} value={e.title}>
-                    {e.title}
+                <option disabled selected>
+                  Select Class
+                </option>
+                {["class 1", "Class 2", "Class 3"].map((e, i) => (
+                  <option
+                    className="text-white text-[14px]"
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <select
                 name="divisionSelect"
-                className="select w-full"
                 defaultValue={student.divisionSelect}
+                className="select w-full"
               >
                 <option disabled selected>
-                  Chose The Category
+                  Select Division
                 </option>
-                {/* {categories.map((e) => (
-                  <option key={e._id} value={e.title}>
-                    {e.title}
+                {["Rajshahi", "Dhaka", "Chattagram"].map((e, i) => (
+                  <option
+                    className="text-white text-[14px]"
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
 
@@ -83,7 +151,7 @@ const EditStudent = () => {
                 defaultValue={student.contact}
                 type="number"
                 placeholder="+880"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -94,7 +162,7 @@ const EditStudent = () => {
                 defaultValue={student.address1}
                 type="text"
                 placeholder="Address 1"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 mt-8">
@@ -104,7 +172,7 @@ const EditStudent = () => {
                 defaultValue={student.address2}
                 type="text"
                 placeholder="Address 2"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -114,7 +182,7 @@ const EditStudent = () => {
                 defaultValue={student.street}
                 type="text"
                 placeholder="Street"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -124,7 +192,7 @@ const EditStudent = () => {
                 defaultValue={student.city}
                 type="text"
                 placeholder="City"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -135,7 +203,7 @@ const EditStudent = () => {
                 defaultValue={student.zip}
                 type="number"
                 placeholder="Zip"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
           </div>

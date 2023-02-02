@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaTrashAlt, FaPencilAlt, FaEye } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { UserAuth } from "../../Context/UserContext";
 import ConfirmationModal from "../../Components/ConfirmationModal";
@@ -16,38 +17,52 @@ const AllStudents = () => {
     setDeleteStudent(null);
   };
 
+
+
+
   const url = `http://localhost:5000/students`;
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(url);
+
+  const {
+    data: allStudents = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["student"],
+    queryFn: async () => {
+      const res = await fetch(url)
       const data = await res.json();
-      setStudents(data);
-      console.log(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [url]);
+  
+      return data;
+    },
+  });
+
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await fetch(url);
+  //     const data = await res.json();
+  //     setStudents(data);
+  //     console.log(data);
+  //     setLoading(false);
+  //   };
+  //   fetchData();
+  // }, [url]);
 
 // to delete a student
-const handleDelete = (seller) => {
-    fetch(``, {
-      method: "DELETE",
-      headers: {
-        authorization: `bearer ${localStorage.getItem("motocross-token")}`,
-      },
+const handleDelete = (student) => {
+    fetch(`http://localhost:5000/student/${student._id}`, {
+      method: "DELETE"
     })
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
         if (data.deletedCount > 0) {
-          userDelete(seller.uid)
-            .then(() => {
-              toast.success(`${seller.name} Successfully Deleted!`);
-            //   refetch();
-            })
-            .catch((e) => toast.error(e.message));
+          toast.success(`${student.firstName} Successfully Deleted!`);
+            refetch();   
         }
-      });
+      }) 
+      .catch((e) => toast.error(e.message));
   };
 
 
@@ -79,7 +94,7 @@ const handleDelete = (seller) => {
             </tr>
           </thead>
           <tbody>
-            {students.map((student, index) => (
+            {allStudents.map((student, index) => (
               <tr 
               key={student._id + index}
               class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -87,10 +102,10 @@ const handleDelete = (seller) => {
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  {student.name}
+                  {student.firstName}
                 </th>
-                <td class="px-6 py-4">Sliver</td>
-                <td class="px-6 py-4">Laptop</td>
+                <td class="px-6 py-4">{student.classSelect}</td>
+                <td class="px-6 py-4">{index + 1}</td>
 
                 <td class="text-center flex justify-evenly py-4">
                   <Link
@@ -113,7 +128,7 @@ const handleDelete = (seller) => {
                   <div className="hover:bg-[#a54c4c69] px-2 py-1  rounded-full">
                     <label
                     htmlFor="confirmation-modal"
-                      onClick={() => setDeleteStudent('x')}
+                      onClick={() => setDeleteStudent(student)}
                       type="button"
                       className="font-medium text-red-600 text-xl"
                     >
