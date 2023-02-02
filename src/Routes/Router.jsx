@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import Error from "../Components/Error";
 import Dashboard from "../Layouts/Dashboard";
 import Main from "../Layouts/Main";
 import Home from "../Pages/Home";
@@ -8,12 +9,13 @@ import AddStudent from "../Pages/Private/AddStudent";
 import AllStudents from "../Pages/Private/AllStudents";
 import EditStudent from "../Pages/Private/EditStudent";
 import ViewStudent from "../Pages/Private/ViewStudent";
+import PrivateRoute from "./PrivateRoute";
 
 export const routes = createBrowserRouter([
     {
         path: "/", 
         element: <Main />,
-        // errorElement:  ,
+        errorElement: <Error />,
         children: [
             {
                 path: "/",
@@ -27,31 +29,36 @@ export const routes = createBrowserRouter([
             {
               path: "/login",
               element: <Login />
-            }
+            },
+           
         ]
     },
     {
       path: '/dashboard',
-      element: <Dashboard />,
-      // errorElent,
+      element: <PrivateRoute>
+        <Dashboard />
+        </PrivateRoute>,
+      errorElement: <Error />,
       children: [
         {
           path: '/dashboard',
-          element: <AddStudent />
+          element: <PrivateRoute>
+              <AddStudent />
+          </PrivateRoute>
         },
         {
           path: "/dashboard/allStudents",
-          element: <AllStudents />
+          element: <PrivateRoute><AllStudents /></PrivateRoute>
         },
         {
           path: "/dashboard/view/:id",
-          loader: ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
-          element: <ViewStudent />
+          loader: ({params}) => fetch(`https://student-crud-server.vercel.app/students/${params.id}`),
+          element:<PrivateRoute><ViewStudent /></PrivateRoute>
         },
         {
           path: "/dashboard/edit/:id",
-          loader: ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
-          element: <EditStudent />
+          loader: ({params}) => fetch(`https://student-crud-server.vercel.app/students/${params.id}`),
+          element: <PrivateRoute><EditStudent /></PrivateRoute>
         },
       ]
     }

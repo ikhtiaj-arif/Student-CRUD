@@ -1,16 +1,13 @@
 import React from "react";
 import toast from "react-hot-toast";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const AddStudent = () => {
-
   const navigate = useNavigate();
 
   const handleAddProduct = (event) => {
     event.preventDefault();
-// get input values
+    // get input values
     const form = event.target;
     const firstName = form.firstName.value;
     const middleName = form.middleName.value;
@@ -35,11 +32,11 @@ const AddStudent = () => {
       address2,
       street,
       city,
-      zip
-    }
-    console.log(studentDetails);
+      zip,
+    };
+    // console.log(studentDetails);
 
-    fetch("http://localhost:5000/student", {
+    fetch("https://student-crud-server.vercel.app/student", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -54,9 +51,6 @@ const AddStudent = () => {
           navigate("/dashboard/allStudents");
         }
       });
-  
- 
-    
   };
 
   return (
@@ -69,8 +63,9 @@ const AddStudent = () => {
                 id="firstName"
                 name="firstName"
                 type="text"
+                required
                 placeholder="First Name"
-                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -79,8 +74,9 @@ const AddStudent = () => {
                 id="middleName"
                 name="middleName"
                 type="text"
+                required
                 placeholder="Middle Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -89,8 +85,9 @@ const AddStudent = () => {
                 id="lastName"
                 name="lastName"
                 type="text"
+                required
                 placeholder="Last Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -99,26 +96,33 @@ const AddStudent = () => {
                 <option disabled selected>
                   Select Class
                 </option>
-                {["class 1", "Class 2", "Class 3"].map((e,i) => (
-                <option className="text-white text-[14px]"
-                key={e+i} value={e}>
-                  {e}
-                </option>
-              ))}
+                {["class 1", "Class 2", "Class 3"].map((e, i) => (
+                  <option
+                    className="text-white text-[14px]"
+                    required
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <select name="divisionSelect" className="select w-full">
                 <option disabled selected>
-                 Select Division
+                  Select Division
                 </option>
                 {["Rajshahi", "Dhaka", "Chattagram"].map((e, i) => (
-                <option
-                className="text-white text-[14px]"
-                key={e+i} value={e}>
-                  {e}
-                </option>
-              ))}
+                  <option
+                    className="text-white text-[14px]"
+                    required
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -127,8 +131,9 @@ const AddStudent = () => {
                 id="contact"
                 name="contact"
                 type="number"
+                required
                 placeholder="+880"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -137,8 +142,9 @@ const AddStudent = () => {
                 id="address1"
                 name="address1"
                 type="text"
+                required
                 placeholder="Address 1"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 mt-8">
@@ -146,8 +152,9 @@ const AddStudent = () => {
                 id="address2"
                 name="address2"
                 type="text"
+                required
                 placeholder="Address 2"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -155,8 +162,9 @@ const AddStudent = () => {
                 id="street"
                 name="street"
                 type="text"
+                required
                 placeholder="Street"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -164,8 +172,9 @@ const AddStudent = () => {
                 id="city"
                 name="city"
                 type="text"
+                required
                 placeholder="City"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -174,8 +183,9 @@ const AddStudent = () => {
                 id="zip"
                 name="zip"
                 type="number"
+                required
                 placeholder="Zip"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
           </div>

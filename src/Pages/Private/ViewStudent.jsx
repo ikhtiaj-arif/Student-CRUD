@@ -1,23 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLoaderData } from "react-router-dom";
 const ViewStudent = () => {
-  const [loading, setLoading] = useState(true);
+
   const student = useLoaderData();
-  console.log(student);
-  const {
-    firstName,
-    middleName,
-    lastName,
-    classSelect,
-    divisionSelect,
-    contact,
-    address1,
-    address2,
-    street,
-    city,
-    zip,
-  } = ViewStudent;
-  console.log(firstName);
+
+
   return (
     <div>
       <h1>Student Details: {student.firstName}</h1>
@@ -32,7 +19,7 @@ const ViewStudent = () => {
                 defaultValue={student.firstName}
                 disabled
                 placeholder="First Name"
-                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3 focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -44,7 +31,7 @@ const ViewStudent = () => {
                 defaultValue={student.middleName}
                 disabled
                 placeholder="Middle Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -56,37 +43,50 @@ const ViewStudent = () => {
                 defaultValue={student.lastName}
                 disabled
                 placeholder="Last Name"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <select
                 name="classSelect"
-                className="select w-full "
                 defaultValue={student.classSelect}
                 disabled
+                className="select w-full"
               >
                 <option disabled selected>
-                  Chose The Category
+                  Select Class
                 </option>
-                {/* {categories.map((e) => (
-                  <option key={e._id} value={e.title}>
-                    {e.title}
+                {["class 1", "Class 2", "Class 3"].map((e, i) => (
+                  <option
+                    className="text-white text-[14px]"
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <select
                 name="divisionSelect"
-                className="select w-full"
                 defaultValue={student.divisionSelect}
                 disabled
+                className="select w-full"
               >
                 <option disabled selected>
-                  Chose The Category
+                  Select Division
                 </option>
+                {["Rajshahi", "Dhaka", "Chattagram"].map((e, i) => (
+                  <option
+                    className="text-white text-[14px]"
+                    key={e + i}
+                    value={e}
+                  >
+                    {e}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -98,7 +98,7 @@ const ViewStudent = () => {
                 defaultValue={student.contact}
                 disabled
                 placeholder="+880"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -110,7 +110,7 @@ const ViewStudent = () => {
                 defaultValue={student.address1}
                 disabled
                 placeholder="Address 1"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 mt-8">
@@ -121,7 +121,7 @@ const ViewStudent = () => {
                 defaultValue={student.address2}
                 disabled
                 placeholder="Address 2"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -132,7 +132,7 @@ const ViewStudent = () => {
                 defaultValue={student.street}
                 disabled
                 placeholder="Street"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
@@ -143,7 +143,7 @@ const ViewStudent = () => {
                 defaultValue={student.city}
                 disabled
                 placeholder="City"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
 
@@ -155,7 +155,7 @@ const ViewStudent = () => {
                 disabled
                 type="number"
                 placeholder="Zip"
-                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-900"
+                className="w-full rounded-sm p-3  focus:ring focus:ring-opacity-75 focus:ring-violet-400 dark:border-gray-700 dark:text-gray-200"
               />
             </div>
           </div>

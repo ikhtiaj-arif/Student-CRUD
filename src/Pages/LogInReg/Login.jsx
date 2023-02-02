@@ -35,7 +35,7 @@ const Login = () => {
             setUser(user);
             toast.success("Login Successful!");
             form.reset();
-            navigate(from, { replace: true });
+            navigate('/dashboard');
           })
           .catch((e) => {
             toast.error(e.message);
@@ -52,7 +52,7 @@ const Login = () => {
             const user = result.user;
             setUser(user);
             toast.success("Login Successful!");
-            navigate(from, { replace: true });
+            navigate('/dashboard');
           })
           .catch((e) => toast.error(e.message));
       }

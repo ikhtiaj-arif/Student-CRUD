@@ -42,10 +42,10 @@ const EditStudent = () => {
       city,
       zip,
     };
-    console.log(studentDetails);
-    console.log(student._id);
+    // console.log(studentDetails);
+    // console.log(student._id);
 
-    fetch(`http://localhost:5000/student/${student._id}`, {
+    fetch(`https://student-crud-server.vercel.app/student/${student._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
