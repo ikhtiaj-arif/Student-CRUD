@@ -64,6 +64,13 @@ const Login = () => {
 
     return (
         <div className="w-full h-screen mx-auto  mt-6 overflow-hidden shadow-md sm:max-w-lg sm:rounded-lg">
+           <div>
+              <a href="/">
+                <h3 className="text-5xl my-10 font-bold text-secondary">
+                  LogIn To Your Account
+                </h3>
+              </a>
+            </div>
         <form onSubmit={handleSubmit} action="" className="bg-gray-900 py-4 px-6 ">
           <div className="mt-4">
             <div className="flex flex-col items-start">
@@ -73,7 +80,7 @@ const Login = () => {
                 name="email"
                 placeholder="Email"
                 required
-                className="block w-full p-3  rounded-md shadow-sm text-gray-700"
+                className="block w-full p-3  rounded-md shadow-sm text-gray-200"
               />
             </div>
           </div>
@@ -91,7 +98,7 @@ const Login = () => {
           <div>
             <button
             type="submit"
-            title="  Log In"
+            className='btn btn-success w-full mt-3'
             >Login</button>
   
             

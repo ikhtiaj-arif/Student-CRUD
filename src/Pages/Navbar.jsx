@@ -18,6 +18,7 @@ const Navbar = () => {
         <div>
           {user && user.uid ? (
             <>
+            <Link className="border p-2" to="/dashboard">Dashboard</Link>
               {user.email}{" "}
               <button
                 className="btn btn-outline btn-secondary mx-2"

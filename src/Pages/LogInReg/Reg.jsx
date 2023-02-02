@@ -74,7 +74,7 @@ const Reg = () => {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 ">
+          <div className="flex flex-col items-center pt-6 sm:justify-center ">
             <div>
               <a href="/">
                 <h3 className="text-5xl font-bold text-secondary">
@@ -129,9 +129,9 @@ const Reg = () => {
     
             <div className="flex items-center mt-4">
                   <button
-                  className="btn btn-success"
+                  className="btn btn-success w-full"
                     type="submit"
-                   title='Register' 
+                   
                     
                   >
                 Register
