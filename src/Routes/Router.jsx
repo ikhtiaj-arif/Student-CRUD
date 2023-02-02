@@ -45,11 +45,13 @@ export const routes = createBrowserRouter([
         },
         {
           path: "/dashboard/view/:id",
+          loader: ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
           element: <ViewStudent />
         },
         {
           path: "/dashboard/edit/:id",
-          element: <ViewStudent />
+          loader: ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
+          element: <EditStudent />
         },
       ]
     }

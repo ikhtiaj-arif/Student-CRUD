@@ -1,7 +1,63 @@
 import React from "react";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+
 
 const AddStudent = () => {
-  const handleAddProduct = () => {};
+
+  const navigate = useNavigate();
+
+  const handleAddProduct = (event) => {
+    event.preventDefault();
+// get input values
+    const form = event.target;
+    const firstName = form.firstName.value;
+    const middleName = form.middleName.value;
+    const lastName = form.lastName.value;
+    const classSelect = form.classSelect.value;
+    const divisionSelect = form.divisionSelect.value;
+    const contact = form.contact.value;
+    const address1 = form.address1.value;
+    const address2 = form.address2.value;
+    const street = form.street.value;
+    const city = form.city.value;
+    const zip = form.zip.value;
+    // put input value in object
+    const studentDetails = {
+      firstName,
+      middleName,
+      lastName,
+      classSelect,
+      divisionSelect,
+      contact,
+      address1,
+      address2,
+      street,
+      city,
+      zip
+    }
+    console.log(studentDetails);
+
+    fetch("http://localhost:5000/student", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(studentDetails),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        if (data.acknowledged) {
+          toast.success("booking confirmed!");
+          navigate("/dashboard/allStudents");
+        }
+      });
+  
+ 
+    
+  };
 
   return (
     <div>
@@ -39,27 +95,30 @@ const AddStudent = () => {
             </div>
 
             <div className="col-span-full sm:col-span-3 md:col-span-2">
-              <select name="category" className="select w-full">
+              <select name="classSelect" className="select w-full">
                 <option disabled selected>
-                  Chose The Category
+                  Select Class
                 </option>
-                {/* {categories.map((e) => (
-                <option key={e._id} value={e.title}>
-                  {e.title}
+                {["class 1", "Class 2", "Class 3"].map((e,i) => (
+                <option className="text-white text-[14px]"
+                key={e+i} value={e}>
+                  {e}
                 </option>
-              ))} */}
+              ))}
               </select>
             </div>
             <div className="col-span-full sm:col-span-3 md:col-span-2">
-              <select name="category" className="select w-full">
+              <select name="divisionSelect" className="select w-full">
                 <option disabled selected>
-                  Chose The Category
+                 Select Division
                 </option>
-                {/* {categories.map((e) => (
-                <option key={e._id} value={e.title}>
-                  {e.title}
+                {["Rajshahi", "Dhaka", "Chattagram"].map((e, i) => (
+                <option
+                className="text-white text-[14px]"
+                key={e+i} value={e}>
+                  {e}
                 </option>
-              ))} */}
+              ))}
               </select>
             </div>
 
