@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../Context/UserContext';
 import {FaGithub, FaGoogle }from "react-icons/fa"
@@ -6,22 +7,57 @@ import {FaGithub, FaGoogle }from "react-icons/fa"
 const Reg = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
     const {
         user,
         setUser,
         createUser,
         googleLogIn,
-        githubLogIn,
         logOutUser,
-        verifyUser,
       } = useContext(UserAuth);
 
-     
-      const handleSubmit = (event) => {}
- 
-      const handleVerification = () => {}
-      const handleGoogleLogin = () => {}
-      const handleLogOut = () => {}
+    //  handle form submit
+      const handleSubmit = (event) => {
+        // getting the from data
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const password_confirmation = form.password_confirmation.value;
+        // checking if the passwords match
+        if (password === password_confirmation) {
+            createUser(email, password)
+              .then((result) => {
+                const user = result.user;
+                setUser(user);
+                toast.success(
+                  "Account Successfully Created! Please Verify Your Email For Confirmation!",
+                  { duration: 8000 }
+                );
+                form.reset();
+                navigate(from, { replace: true });
+              })
+              .catch((e) => {
+                toast.error(e.message);
+              });
+          }
+      }
+// google login
+      const handleGoogleLogin = () => {
+        googleLogIn()
+        .then((result) => {
+          const user = result.user;
+          setUser(user);
+          toast.success("Login Successful!");
+        })
+        .catch((e) => toast.error(e.message));
+      }
+      
+      const handleLogOut = () => {
+        logOutUser()
+        .then(() => {})
+        .catch((e) => toast.error(e.message));
+      }
 
 
     return (
@@ -53,7 +89,7 @@ const Reg = () => {
                     type="text"
                     name="name"
                     placeholder="Full Name"
-                    className="block w-full p-3  rounded-md shadow-sm text-gray-700"
+                    className="block w-full p-3  rounded-md shadow-sm text-gray-200"
                   />
                 </div>
     
@@ -64,7 +100,7 @@ const Reg = () => {
                       type="email"
                       name="email"
                       placeholder="Email"
-                      className="block w-full p-3  rounded-md shadow-sm text-gray-700"
+                      className="block w-full p-3  rounded-md shadow-sm text-gray-200"
                     />
                   </div>
                 </div>

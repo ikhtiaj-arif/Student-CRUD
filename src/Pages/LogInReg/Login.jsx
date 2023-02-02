@@ -22,9 +22,45 @@ const Login = () => {
         updateUserPassword
       } = useContext(UserAuth);
       
-      const handleSubmit = (event) => {}
-      const handleGoogleLogin = () => {}
-      const handleLogOut = () => {}
+    //   form submit handler function
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        logInUser(email, password)
+          .then((result) => {
+            const user = result.user;
+            setUser(user);
+            toast.success("Login Successful!");
+            form.reset();
+            navigate(from, { replace: true });
+          })
+          .catch((e) => {
+            toast.error(e.message);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+
+      }
+    //   handle google login
+      const handleGoogleLogin = () => {
+        googleLogIn()
+          .then((result) => {
+            const user = result.user;
+            setUser(user);
+            toast.success("Login Successful!");
+            navigate(from, { replace: true });
+          })
+          .catch((e) => toast.error(e.message));
+      }
+      const handleLogOut = () => {
+        logOutUser()
+        .then(() => {})
+        .catch((e) => toast.error(e.message));
+      }
 
     return (
         <div className="w-full h-screen mx-auto  mt-6 overflow-hidden shadow-md sm:max-w-lg sm:rounded-lg">
